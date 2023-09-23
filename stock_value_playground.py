@@ -1,8 +1,10 @@
 import yfinance as yf
 
-ticker = 'MSFT'
-msft = yf.Ticker(ticker)
+ticker = ['MSFT', 'AAPL', 'CSCO']
 
-current_price = msft.info['currentPrice']
+for items in ticker:
+    stocks = yf.Ticker(items)
 
-print('Current price of ' + ticker + ' is '+ str(current_price) + '$')
+    current_price = stocks.info['currentPrice']
+
+    print('Current price of ' + items + ' is '+ str(current_price) + '$')
