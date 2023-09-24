@@ -74,7 +74,7 @@ def currency_symbol(stock):
     return currency_list
 
 
-with open("instrinc_value.txt", "w") as f:
+with open("instrinc_value.csv", "w") as f:
 
     for eps, pe, price, tickers, currency in zip(earnings_share(stock_list), pe_ratio(stock_list), current_price(stock_list), stock_list, currency_symbol(stock_list)):
 
@@ -88,6 +88,6 @@ with open("instrinc_value.txt", "w") as f:
 
         print('Current PE ratio of ' + tickers + ' is ' + pe_str + ', current price is: ' + price_str + ' and instrinc value is: ' + instrinc_str + ' ' + currency)  
 
-        print('Current PE ratio of ' + tickers + ' is ' + pe_str + ', current price is: ' + price_str + ' and instrinc value is: ' + instrinc_str + ' ' + currency, '\n', file=f)      
+        print('Current PE ratio of ' + tickers + ' is ' + pe_str + ', current price is: ' + price_str + ' and instrinc value is: ' + instrinc_str + ' ' + currency, file=f)      
 
 
