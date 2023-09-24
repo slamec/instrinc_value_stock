@@ -3,7 +3,13 @@ import yfinance as yf
 # Intrinsic value = Earnings per share (EPS) x (1 + r) x P/E ratio
 
 # each ticker has to be seperated by ','
-stock_list  = ['MSFT', 'AAPL'] 
+stock_list  = ['AAPL', 'AIR.PA', 'AXP',	'BAC', 'CEZ.PR', 'CSCO', 'CVS', 'CZG.PR', 'DIS', 'GPRO', 'GRMN', 'INTC', 
+               'KBC.BR', 'KO' ,'MSFT', 'NKE', 'PG', 'RIO', 
+               'SHLS', 'SONY', 'TTWO', 'UL', 'VOW.DE']
+
+# stock_list = ['AAPL', 'AXP', 'CEZ.PR', 'VUAA.L']
+
+print(len(stock_list))
 
 # growth rate in %
 growth_rate = 0.05
@@ -31,9 +37,12 @@ def pe_ratio(stock):
     for items in stock:
         ticker = yf.Ticker(items)
 
-        eps = ticker.info['trailingPE']
+        try:
+            eps = ticker.info['trailingPE']
+            pe_list.append(eps)
 
-        pe_list.append(eps)
+        except KeyError:
+            continue
 
     return pe_list
 
@@ -65,7 +74,7 @@ def currency_symbol(stock):
     return currency_list
 
 
-with open("output.txt", "w") as f:
+with open("instrinc_value.txt", "w") as f:
 
     for eps, pe, price, tickers, currency in zip(earnings_share(stock_list), pe_ratio(stock_list), current_price(stock_list), stock_list, currency_symbol(stock_list)):
 
