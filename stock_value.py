@@ -13,6 +13,7 @@ print(f"Stock count", len(stock_list))
 
 # growth rate in %
 growth_rate = 0.05
+
 def earnings_share(stock):
     """Gets EPS value for all tickers in a variable"""
 
