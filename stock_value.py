@@ -86,8 +86,6 @@ with open("instrinc_value.csv", "w") as f:
 
         instrinc_str = str(instrinc_value)
 
-        print('Current PE ratio of ' + tickers + ' is ' + pe_str + ', current price is: ' + price_str + ' and instrinc value is: ' + instrinc_str + ' ' + currency)  
-
-        print('Current PE ratio of ' + tickers + ' is ' + pe_str + ', current price is: ' + price_str + ' and instrinc value is: ' + instrinc_str + ' ' + currency, file=f)      
+        print(f"Instrinc value of {tickers} is {instrinc_str}{currency} price is {price}{currency} and PE is {pe_str}", file=f)    
 
 
