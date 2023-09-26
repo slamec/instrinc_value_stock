@@ -9,11 +9,10 @@ stock_list  = ['AAPL', 'AIR.PA', 'AXP',	'BAC', 'CEZ.PR', 'CSCO', 'CVS', 'CZG.PR'
 
 # stock_list = ['AAPL', 'AXP', 'CEZ.PR', 'VUAA.L']
 
-print(len(stock_list))
+print(f"Stock count", len(stock_list))
 
 # growth rate in %
 growth_rate = 0.05
-
 def earnings_share(stock):
     """Gets EPS value for all tickers in a variable"""
 
@@ -86,6 +85,6 @@ with open("instrinc_value.csv", "w") as f:
 
         instrinc_str = str(instrinc_value)
 
-        print(f"Instrinc value of {tickers} is {instrinc_str}{currency} price is {price}{currency} and PE is {pe_str}", file=f)    
+        print(f"Instrinc value of {tickers} is {instrinc_str} {currency} price is {price} {currency} and PE is {pe_str}", file=f)    
 
 
