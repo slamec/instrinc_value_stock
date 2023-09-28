@@ -92,7 +92,8 @@ with open("instrinc_value.csv", "w") as f:
         print(f"Instrinc value of {tickers} is {instrinc_str} {currency} price is {price} {currency} and PE is {pe_str}", file=f)   
         #terminal 
         print(f"Instrinc value of {tickers} is {instrinc_str} {currency} price is {price} {currency} and PE is {pe_str}") 
-        print('\n')
+
+print('\n')
 
 
 def market_cap(stock):
@@ -117,8 +118,22 @@ def free_cf(stock):
     for items in stock:
         ticker = yf.Ticker(items)
 
-        cashflow = ticker.info['freeCashflow']
+        try:
+
+            cashflow = ticker.info['freeCashflow']
+        
+        except KeyError:
+            continue
 
         cashflow_list.append(cashflow)
 
     return cashflow_list
+
+
+for tick, cap, cf in zip(stock_list, market_cap(stock_list), free_cf(stock_list)):
+
+    ratio = int(cap / cf)
+
+    ratio_str = str(ratio)
+
+    print(f"Current free cashflow ratio for {tick} is {ratio_str}")
