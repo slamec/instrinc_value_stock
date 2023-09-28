@@ -90,7 +90,7 @@ with open("instrinc_value.csv", "w") as f:
 
         # file
         # print(f"Instrinc value of {tickers} is {instrinc_str} {currency} price is {price} {currency} and PE is {pe_str}", file=f)   
-        
+
         #terminal 
         print(f"Instrinc value of {tickers} is {instrinc_str} {currency} price is {price} {currency} and PE is {pe_str}") 
 
@@ -119,12 +119,8 @@ def free_cf(stock):
     for items in stock:
         ticker = yf.Ticker(items)
 
-        try:
-
-            cashflow = ticker.info['freeCashflow']
-        
-        except KeyError:
-            continue
+        # get current free cash flow name and location 
+        cashflow = ticker.cashflow.loc['Free Cash Flow'].iloc[0]
 
         cashflow_list.append(cashflow)
 

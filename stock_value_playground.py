@@ -10,6 +10,11 @@ ticker = ['MSFT', 'AAPL', 'CSCO']
 
 #     print('Current price of ' + items + ' is '+ str(current_price) + '$')
 
-stocks = yf.Ticker('MSFT')
+stocks = yf.Ticker('AXP')
 
-pprint.pprint(stocks.info)
+# pprint.pprint(stocks.info)
+
+cashflow = stocks.cashflow.loc['Free Cash Flow'].iloc[0]
+
+print(cashflow)
+
