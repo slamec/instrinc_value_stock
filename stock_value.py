@@ -3,11 +3,11 @@ import yfinance as yf
 # Intrinsic value = Earnings per share (EPS) x (1 + r) x P/E ratio
 
 # each ticker has to be seperated by ','
-stock_list  = ['AAPL', 'AIR.PA', 'AXP',	'BAC', 'CEZ.PR', 'CSCO', 'CVS', 'CZG.PR', 'DIS', 'GPRO', 'GRMN', 'INTC', 
-               'KBC.BR', 'KO' ,'MSFT', 'NKE', 'PG', 'RIO', 
-               'SHLS', 'SONY', 'TTWO', 'UL', 'VOW.DE']
+# stock_list  = ['AAPL', 'AIR.PA', 'AXP',	'BAC', 'CEZ.PR', 'CSCO', 'CVS', 'CZG.PR', 'DIS', 'GPRO', 'GRMN', 'INTC', 
+#                'KBC.BR', 'KO' ,'MSFT', 'NKE', 'PG', 'RIO', 
+#                'SHLS', 'SONY', 'TTWO', 'UL', 'VOW.DE']
 
-# stock_list = ['AAPL', 'AXP', 'CEZ.PR', 'VUAA.L']
+stock_list = ['AAPL', 'AXP']
 
 print(f"Stock count", len(stock_list))
 
@@ -39,6 +39,7 @@ def pe_ratio(stock):
 
         try:
             eps = ticker.info['trailingPE']
+            
             pe_list.append(eps)
 
         except KeyError:
@@ -47,7 +48,7 @@ def pe_ratio(stock):
     return pe_list
 
 def current_price(stock):
-    """Returns current price of a stock"""
+    """Returns current price of a given stock"""
 
     current_price_list = []
 
@@ -61,15 +62,16 @@ def current_price(stock):
     return current_price_list
 
 def currency_symbol(stock):
+    """Returns currency of a given stock"""
 
     currency_list = []
 
     for items in stock:
         ticker = yf.Ticker(items)
 
-        price = ticker.info['currency']
+        currency = ticker.info['currency']
 
-        currency_list.append(price)
+        currency_list.append(currency)
 
     return currency_list
 
@@ -92,3 +94,17 @@ with open("instrinc_value.csv", "w") as f:
         print(f"Instrinc value of {tickers} is {instrinc_str} {currency} price is {price} {currency} and PE is {pe_str}") 
 
 
+def market_cap(stock):
+
+    cap_list = []
+
+    for items in stock:
+        ticker = yf.Ticker(items)
+
+        price = ticker.info['marketCap']
+
+        cap_list.append(price)
+
+    return cap_list
+
+print(market_cap(stock_list))
