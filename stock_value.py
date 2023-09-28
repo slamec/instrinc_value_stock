@@ -3,13 +3,14 @@ import yfinance as yf
 # Intrinsic value = Earnings per share (EPS) x (1 + r) x P/E ratio
 
 # each ticker has to be seperated by ','
-# stock_list  = ['AAPL', 'AIR.PA', 'AXP',	'BAC', 'CEZ.PR', 'CSCO', 'CVS', 'CZG.PR', 'DIS', 'GPRO', 'GRMN', 'INTC', 
-#                'KBC.BR', 'KO' ,'MSFT', 'NKE', 'PG', 'RIO', 
-#                'SHLS', 'SONY', 'TTWO', 'UL', 'VOW.DE']
+stock_list  = ['AAPL', 'AIR.PA', 'AXP',	'BAC', 'CEZ.PR', 'CSCO', 'CVS', 'CZG.PR', 'DIS', 'GPRO', 'GRMN', 'INTC', 
+               'KBC.BR', 'KO' ,'MSFT', 'NKE', 'PG', 'RIO', 
+               'SHLS', 'SONY', 'TTWO', 'UL', 'VOW.DE']
 
-stock_list = ['AAPL', 'AXP']
+# stock_list = ['AAPL', 'AXP']
 
 print(f"Stock count", len(stock_list))
+print('\n')
 
 # growth rate in %
 growth_rate = 0.05
@@ -42,8 +43,8 @@ def pe_ratio(stock):
             
             pe_list.append(eps)
 
-        except KeyError:
-            continue
+        except:
+            pe_list.append(-0)
 
     return pe_list
 
