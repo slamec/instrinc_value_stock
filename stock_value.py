@@ -92,19 +92,33 @@ with open("instrinc_value.csv", "w") as f:
         print(f"Instrinc value of {tickers} is {instrinc_str} {currency} price is {price} {currency} and PE is {pe_str}", file=f)   
         #terminal 
         print(f"Instrinc value of {tickers} is {instrinc_str} {currency} price is {price} {currency} and PE is {pe_str}") 
+        print('\n')
 
 
 def market_cap(stock):
+    """Returns market cap of a given stock"""
 
     cap_list = []
 
     for items in stock:
         ticker = yf.Ticker(items)
 
-        price = ticker.info['marketCap']
+        cap = ticker.info['marketCap']
 
-        cap_list.append(price)
+        cap_list.append(cap)
 
     return cap_list
 
-print(market_cap(stock_list))
+def free_cf(stock):
+    """Returns free cash flow of a given stock"""
+
+    cashflow_list = []
+
+    for items in stock:
+        ticker = yf.Ticker(items)
+
+        cashflow = ticker.info['freeCashflow']
+
+        cashflow_list.append(cashflow)
+
+    return cashflow_list
