@@ -3,11 +3,11 @@ import yfinance as yf
 # Intrinsic value = Earnings per share (EPS) x (1 + r) x P/E ratio
 
 # each ticker has to be seperated by ','
-# stock_list  = ['AAPL', 'AIR.PA', 'AXP',	'BAC', 'CEZ.PR', 'CSCO', 'CVS', 'CZG.PR', 'DIS', 'GPRO', 'GRMN', 'INTC', 
-#                'KBC.BR', 'KO' ,'MSFT', 'NKE', 'PG', 'RIO', 
-#                'SHLS', 'SONY', 'TTWO', 'UL', 'VOW.DE']
+stock_list  = ['AAPL', 'AIR.PA', 'AXP',	'BAC', 'CEZ.PR', 'CSCO', 'CVS', 'CZG.PR', 'DIS', 'GPRO', 'GRMN', 'INTC', 
+               'KBC.BR', 'KO' ,'MSFT', 'NKE', 'PG', 'RIO', 
+               'SHLS', 'SONY', 'TTWO', 'UL', 'VOW.DE']
 
-stock_list = ['TSLA']
+# stock_list = ['AMZN']
 
 print(f"Stock count", len(stock_list), '\n')
 
@@ -133,4 +133,6 @@ for tick, cap, cf in zip(stock_list, market_cap(stock_list), free_cf(stock_list)
 
     ratio_str = str(ratio)
 
-    print(f"Current free cashflow ratio for {tick} is {ratio_str}", '\n')
+    print(f"Current free cashflow ratio for {tick} is {ratio_str}")
+
+print('\n')
