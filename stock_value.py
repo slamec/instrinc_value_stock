@@ -89,7 +89,8 @@ with open("instrinc_value.csv", "w") as f:
         instrinc_str = str(instrinc_value)
 
         # file
-        print(f"Instrinc value of {tickers} is {instrinc_str} {currency} price is {price} {currency} and PE is {pe_str}", file=f)   
+        # print(f"Instrinc value of {tickers} is {instrinc_str} {currency} price is {price} {currency} and PE is {pe_str}", file=f)   
+        
         #terminal 
         print(f"Instrinc value of {tickers} is {instrinc_str} {currency} price is {price} {currency} and PE is {pe_str}") 
 
