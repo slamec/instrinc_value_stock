@@ -1,4 +1,5 @@
 import yfinance as yf
+import csv
 
 # Intrinsic value = Earnings per share (EPS) x (1 + r) x P/E ratio
 
@@ -108,30 +109,59 @@ def free_cf(stock):
 
     return cashflow_list
 
-with open("instrinc_value.csv", "w") as f:
+# assign header columns 
+headers = ['Ticker', 'Instrinc value', 'Current price', 'PE ratio', 'Free cashflow ratio', 'Currency'] 
 
-    for eps, pe, price, tickers, currency, cap, cf in zip(earnings_share(stock_list), 
-                                                          pe_ratio(stock_list), 
-                                                          current_price(stock_list), 
-                                                          stock_list, 
-                                                          currency_symbol(stock_list), 
-                                                          market_cap(stock_list), 
-                                                          free_cf(stock_list)):
+writer = csv.DictWriter(open('test.csv', 'w'), delimiter=',', fieldnames=headers)
 
-        pe_str = str(round(pe, 2))
+# Write the header names to the CSV file.
+writer.writeheader()
 
-        price_str = str(round(price, 2))
+for eps, pe, price, tickers, currency, cap, cf in zip(earnings_share(stock_list), 
+                                                        pe_ratio(stock_list), 
+                                                        current_price(stock_list), 
+                                                        stock_list, 
+                                                        currency_symbol(stock_list), 
+                                                        market_cap(stock_list), 
+                                                        free_cf(stock_list)):
 
-        instrinc_value = round(eps * (1 + growth_rate) * pe, 2)
+    pe_str = str(round(pe, 2))
 
-        instrinc_str = str(instrinc_value)
+    price_str = str(round(price, 2))
 
-        ratio = int(cap / cf)
+    instrinc_value = round(eps * (1 + growth_rate) * pe, 2)
 
-        ratio_str = str(ratio)
+    instrinc_str = str(instrinc_value)
 
-        # file
-        print(f"Instrinc value of {tickers}, is {instrinc_str} {currency} current price is {price_str} {currency} PE ratio is {pe_str} and free cashflow ratio is {ratio_str}", file=f)  
+    ratio = int(cap / cf)
 
-        #terminal 
-        print(f"Instrinc value of {tickers}, is {instrinc_str} {currency} current price is {price_str} {currency} PE ratio is {pe_str} and free cashflow ratio is {ratio_str}") 
+    ratio_str = str(ratio)
+
+    #terminal 
+    print(f"Instrinc value of {tickers}, is {instrinc_str} {currency} current price is {price_str} {currency} PE ratio is {pe_str} and free cashflow ratio is {ratio_str}") 
+
+    row_data = {
+        'Ticker': tickers,
+        'Instrinc value': instrinc_str,
+        'Current price': price_str,
+        'PE ratio': pe_str,
+        'Free cashflow ratio': ratio_str,
+        'Currency': currency,
+    }
+
+    # Write the dictionary to the CSV file using the writerows() method of the DictWriter object.
+    writer.writerow(row_data)
+
+# Open the CSV file in read mode.
+with open('test.csv', 'r') as input_csv_file:
+    reader = csv.reader(input_csv_file)
+
+    # Create a new CSV file in write mode.
+    with open('test_without_empty_rows.csv', 'w', newline='') as output_csv_file:
+        writer = csv.writer(output_csv_file)
+
+        # Iterate over the rows in the input CSV file.
+        for row in reader:
+            # If the row is not empty, write it to the output CSV file.
+            if row:
+                writer.writerow(row)
