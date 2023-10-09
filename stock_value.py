@@ -3,11 +3,11 @@ import yfinance as yf
 # Intrinsic value = Earnings per share (EPS) x (1 + r) x P/E ratio
 
 # each ticker has to be seperated by ','
-stock_list  = ['AAPL', 'AIR.PA', 'AXP',	'BAC', 'CEZ.PR', 'CSCO', 'CVS', 'CZG.PR', 'DIS', 'GPRO', 'GRMN', 'INTC', 
-               'KBC.BR', 'KO' ,'MSFT', 'NKE', 'PG', 'RIO', 
-               'SHLS', 'SONY', 'TTWO', 'UL', 'VOW.DE']
+# stock_list  = ['AAPL', 'AIR.PA', 'AXP', 'BAC', 'CEZ.PR', 'CSCO', 'CVS', 'CZG.PR', 'DIS', 'GPRO', 'GRMN', 'INTC', 
+#                'KBC.BR', 'KO' ,'MSFT', 'NKE', 'PG', 'RIO', 
+#                'SHLS', 'SONY', 'TTWO', 'UL', 'VOW.DE']
 
-# stock_list = ['AMZN']
+stock_list = ['MSFT', 'AAPL']
 
 print(f"Stock count", len(stock_list), '\n')
 
@@ -17,13 +17,16 @@ growth_rate = 0.05
 def earnings_share(stock):
     """Gets EPS value for all tickers in a variable"""
 
+    #list of earnings per share
     eps_list = []
 
     for items in stock:
         ticker = yf.Ticker(items)
 
+        #get earning per share
         eps = ticker.info['trailingEps']
 
+        #append list
         eps_list.append(eps)
 
     return eps_list
@@ -76,27 +79,6 @@ def currency_symbol(stock):
     return currency_list
 
 
-with open("instrinc_value.csv", "w") as f:
-
-    for eps, pe, price, tickers, currency in zip(earnings_share(stock_list), pe_ratio(stock_list), current_price(stock_list), stock_list, currency_symbol(stock_list)):
-
-        pe_str = str(round(pe, 2))
-
-        price_str = str(round(price, 2))
-
-        instrinc_value = round(eps * (1 + growth_rate) * pe, 2)
-
-        instrinc_str = str(instrinc_value)
-
-        # file
-        # print(f"Instrinc value of {tickers} is {instrinc_str} {currency} price is {price} {currency} and PE is {pe_str}", file=f)   
-
-        #terminal 
-        print(f"Instrinc value of {tickers} is {instrinc_str} {currency} price is {price} {currency} and PE is {pe_str}") 
-
-print('\n')
-
-
 def market_cap(stock):
     """Returns market cap of a given stock"""
 
@@ -119,20 +101,37 @@ def free_cf(stock):
     for items in stock:
         ticker = yf.Ticker(items)
 
-        # get current free cash flow name and location 
+        # get current free cash flow 'name' and location - iloc 0 = newest
         cashflow = ticker.cashflow.loc['Free Cash Flow'].iloc[0]
 
         cashflow_list.append(cashflow)
 
     return cashflow_list
 
+with open("instrinc_value.csv", "w") as f:
 
-for tick, cap, cf in zip(stock_list, market_cap(stock_list), free_cf(stock_list)):
+    for eps, pe, price, tickers, currency, cap, cf in zip(earnings_share(stock_list), 
+                                                          pe_ratio(stock_list), 
+                                                          current_price(stock_list), 
+                                                          stock_list, 
+                                                          currency_symbol(stock_list), 
+                                                          market_cap(stock_list), 
+                                                          free_cf(stock_list)):
 
-    ratio = int(cap / cf)
+        pe_str = str(round(pe, 2))
 
-    ratio_str = str(ratio)
+        price_str = str(round(price, 2))
 
-    print(f"Current free cashflow ratio for {tick} is {ratio_str}")
+        instrinc_value = round(eps * (1 + growth_rate) * pe, 2)
 
-print('\n')
+        instrinc_str = str(instrinc_value)
+
+        ratio = int(cap / cf)
+
+        ratio_str = str(ratio)
+
+        # file
+        print(f"Instrinc value of {tickers}, is {instrinc_str} {currency} current price is {price_str} {currency} PE ratio is {pe_str} and free cashflow ratio is {ratio_str}", file=f)  
+
+        #terminal 
+        print(f"Instrinc value of {tickers}, is {instrinc_str} {currency} current price is {price_str} {currency} PE ratio is {pe_str} and free cashflow ratio is {ratio_str}") 
