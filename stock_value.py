@@ -8,9 +8,11 @@ import csv
 #                'KBC.BR', 'KO' ,'MSFT', 'NKE', 'PG', 'RIO', 
 #                'SHLS', 'SONY', 'TTWO', 'UL', 'VOW.DE']
 
-stock_list = ['MSFT'] #ticker
+#ticker
+stock_list = ['MSFT'] 
 
-print(f"Stock count", len(stock_list), '\n')
+# print count of objects
+# print(f"Stock count", len(stock_list), '\n')
 
 # growth rate in %
 growth_rate = 0.03
@@ -109,15 +111,7 @@ def operating_cf(stock):
 
     return cashflow_list
 
-# # assign header columns 
-# headers = ['Ticker', 'Instrinc value', 'Current price', 'PE ratio', 'Free cashflow ratio', 'Currency'] 
-
-# writer = csv.DictWriter(open('test.csv', 'w'), delimiter=',', fieldnames=headers)
-
-# # Write the header names to the CSV file.
-# writer.writeheader()
-
-for eps, pe, price, tickers, currency, cap, cf in zip(earnings_share(stock_list), 
+for eps, pe, price, tickers, currency, cap, op_cf in zip(earnings_share(stock_list), 
                                                         pe_ratio(stock_list), 
                                                         current_price(stock_list), 
                                                         stock_list, 
@@ -133,13 +127,22 @@ for eps, pe, price, tickers, currency, cap, cf in zip(earnings_share(stock_list)
 
     instrinc_str = str(instrinc_value)
 
-    ratio = int(cap / cf)
+    ratio = int(cap / op_cf)
 
     ratio_str = str(ratio)
 
     #terminal 
     print(f"Instrinc value of {tickers}, is {instrinc_str} {currency} current price is {price_str} {currency} PE ratio is {pe_str} and free cashflow ratio is {ratio_str} (lower the better).") 
 
+    
+# assign header columns 
+# headers = ['Ticker', 'Instrinc value', 'Current price', 'PE ratio', 'Free cashflow ratio', 'Currency'] 
+
+# writer = csv.DictWriter(open('test.csv', 'w'), delimiter=',', fieldnames=headers)
+
+# Write the header names to the CSV file.
+# writer.writeheader()
+    
     # row_data = {
     #     'Ticker': tickers,
     #     'Instrinc value': instrinc_str,
