@@ -8,7 +8,7 @@ import csv
 #                'KBC.BR', 'KO' ,'MSFT', 'NKE', 'PG', 'RIO', 
 #                'SHLS', 'SONY', 'TTWO', 'UL', 'VOW.DE']
 
-stock_list = ['MSFT']
+stock_list = ['MSFT'] #ticker
 
 print(f"Stock count", len(stock_list), '\n')
 
