@@ -10,7 +10,7 @@ ticker = ['MSFT', 'AAPL', 'CSCO']
 
 #     print('Current price of ' + items + ' is '+ str(current_price) + '$')
 
-stocks = yf.Ticker('TTWO')
+stocks = yf.Ticker("TTWO")
 
 pprint.pprint(stocks.info)
 

@@ -3,17 +3,17 @@ import csv
 
 # Intrinsic value = Earnings per share (EPS) x (1 + r) x P/E ratio
 
-# each ticker has to be seperated by ','
+# # each ticker has to be seperated by ','
 # stock_list  = ['AAPL', 'AIR.PA', 'AXP', 'BAC', 'CEZ.PR', 'CSCO', 'CVS', 'CZG.PR', 'DIS', 'GPRO', 'GRMN', 'INTC', 
 #                'KBC.BR', 'KO' ,'MSFT', 'NKE', 'PG', 'RIO', 
 #                'SHLS', 'SONY', 'TTWO', 'UL', 'VOW.DE']
 
-stock_list = ['MSFT', 'AAPL']
+stock_list = ['MSFT']
 
 print(f"Stock count", len(stock_list), '\n')
 
 # growth rate in %
-growth_rate = 0.05
+growth_rate = 0.03
 
 def earnings_share(stock):
     """Gets EPS value for all tickers in a variable"""
@@ -94,7 +94,7 @@ def market_cap(stock):
 
     return cap_list
 
-def free_cf(stock):
+def operating_cf(stock):
     """Returns free cash flow of a given stock"""
 
     cashflow_list = []
@@ -102,20 +102,20 @@ def free_cf(stock):
     for items in stock:
         ticker = yf.Ticker(items)
 
-        # get current free cash flow 'name' and location - iloc 0 = newest
-        cashflow = ticker.cashflow.loc['Free Cash Flow'].iloc[0]
+        
+        cashflow = ticker.info['operatingCashflow']
 
         cashflow_list.append(cashflow)
 
     return cashflow_list
 
-# assign header columns 
-headers = ['Ticker', 'Instrinc value', 'Current price', 'PE ratio', 'Free cashflow ratio', 'Currency'] 
+# # assign header columns 
+# headers = ['Ticker', 'Instrinc value', 'Current price', 'PE ratio', 'Free cashflow ratio', 'Currency'] 
 
-writer = csv.DictWriter(open('test.csv', 'w'), delimiter=',', fieldnames=headers)
+# writer = csv.DictWriter(open('test.csv', 'w'), delimiter=',', fieldnames=headers)
 
-# Write the header names to the CSV file.
-writer.writeheader()
+# # Write the header names to the CSV file.
+# writer.writeheader()
 
 for eps, pe, price, tickers, currency, cap, cf in zip(earnings_share(stock_list), 
                                                         pe_ratio(stock_list), 
@@ -123,7 +123,7 @@ for eps, pe, price, tickers, currency, cap, cf in zip(earnings_share(stock_list)
                                                         stock_list, 
                                                         currency_symbol(stock_list), 
                                                         market_cap(stock_list), 
-                                                        free_cf(stock_list)):
+                                                        operating_cf(stock_list)):
 
     pe_str = str(round(pe, 2))
 
@@ -138,30 +138,30 @@ for eps, pe, price, tickers, currency, cap, cf in zip(earnings_share(stock_list)
     ratio_str = str(ratio)
 
     #terminal 
-    print(f"Instrinc value of {tickers}, is {instrinc_str} {currency} current price is {price_str} {currency} PE ratio is {pe_str} and free cashflow ratio is {ratio_str}") 
+    print(f"Instrinc value of {tickers}, is {instrinc_str} {currency} current price is {price_str} {currency} PE ratio is {pe_str} and free cashflow ratio is {ratio_str} (lower the better).") 
 
-    row_data = {
-        'Ticker': tickers,
-        'Instrinc value': instrinc_str,
-        'Current price': price_str,
-        'PE ratio': pe_str,
-        'Free cashflow ratio': ratio_str,
-        'Currency': currency,
-    }
+    # row_data = {
+    #     'Ticker': tickers,
+    #     'Instrinc value': instrinc_str,
+    #     'Current price': price_str,
+    #     'PE ratio': pe_str,
+    #     'Free cashflow ratio': ratio_str,
+    #     'Currency': currency,
+    # }
 
-    # Write the dictionary to the CSV file using the writerows() method of the DictWriter object.
-    writer.writerow(row_data)
+    # # Write the dictionary to the CSV file using the writerows() method of the DictWriter object.
+    # writer.writerow(row_data)
 
-# Open the CSV file in read mode.
-with open('test.csv', 'r') as input_csv_file:
-    reader = csv.reader(input_csv_file)
+# # Open the CSV file in read mode.
+# with open('test.csv', 'r') as input_csv_file:
+#     reader = csv.reader(input_csv_file)
 
-    # Create a new CSV file in write mode.
-    with open('test_without_empty_rows.csv', 'w', newline='') as output_csv_file:
-        writer = csv.writer(output_csv_file)
+#     # Create a new CSV file in write mode.
+#     with open('test.csv', 'w', newline='') as output_csv_file:
+#         writer = csv.writer(output_csv_file)
 
-        # Iterate over the rows in the input CSV file.
-        for row in reader:
-            # If the row is not empty, write it to the output CSV file.
-            if row:
-                writer.writerow(row)
+#         # Iterate over the rows in the input CSV file.
+#         for row in reader:
+#             # If the row is not empty, write it to the output CSV file.
+#             if row:
+#                 writer.writerow(row)
